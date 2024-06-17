@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/Register.css">
+  <title>Log In</title>
+  <body>
+    <div class="register-container">
+      <form action="" enctype="multipart/form-data" method="post"  class="ui form p-2">
+            <div id="valid" class="text-success"></div>
+            <div id="error" class="text-danger"></div>
+     <form id="Register_form">
+        <h2>Register</h2>
+        <div class="required info field"></div>
+        <label for="user_name">Username</label>
+        <input type="text" id="user_name" placeholder="Username" required><br>
+        <label for="Password">Password</label>
+        <input type="password" id="password" placeholder="Password" required><br>
+        <div class="required info field">
+              <label for="confirmPassword">Confirm Password</label>
+            <input type="password" name="confirmPassword" enterkeyhint="send" oninput="validate()" required id="confirmPassword" placeholder="Confirm Password" class="form-control"><br>
+              </div>
+         <!-- <label for="email">Email</label> -->
+        <input type="email" id="email" placeholder="Email" required><br>
+        <label for="full_name">Full Name</label>
+        <input type="text" id="full_name" placeholder="Full Name" required><br>
+        <button type="submit">Register</button>
+     </form>
+
+     <script src="js/register.js"></script>
+    </div>
+  </body>

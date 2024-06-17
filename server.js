@@ -4,9 +4,15 @@ const fs = require("fs");
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
 const bodyParser = require("body-parser");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const { check, validationResult } = require("express-validator");
 const app = express();
+const path = require("path")
+const dotenv = require('dotenv')
+
+dotenv.config()
+
+
 // Configure session middleware
 app.use(session({
     secret: 'secret-key',
@@ -16,10 +22,10 @@ app.use(session({
 
 // Create MySQL connection
 const connection = mysql.createConnection({
-  host: "localhost",
+  host: process.env.DB_HOST,
   user: "root",
-  password: "",
-  database: "expensesdb",
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.DB_NAME,
 });
 //connect to MySQL
 connection.connect((err) => {
@@ -37,6 +43,37 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// rendering static files
+app.use(express.static(path.join(__dirname, "static")))
+
+/*
+* This is the rendering to the pages and definign routes
+*/
+// display page route
+app.get("/display", isAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, "./pages/display.html"))
+})
+
+// expenses page route
+app.get("/expenses", (req, res) => {
+  res.sendFile(path.join(__dirname, "./pages/expenses.html"))
+})
+
+// indeex page route
+app.get("/indeex", (req, res) => {
+  res.sendFile(path.join(__dirname, "./pages/indeex.html"))
+})
+
+// register page route
+app.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname, "./pages/register.html"))
+})
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "./pages/index.html"))
+})
+
 //define routes
 app.get("/data", (req, res) => {
   fs.readFile(path.join(__dirname, "data.JSON"), "utf8", (err, data) => {
@@ -154,7 +191,7 @@ app.post("/Logout", (req, res) => {
 });
 
 
-const PORT = process.env.PORT || 5501;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
