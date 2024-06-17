@@ -143,7 +143,7 @@ app.post("/register", [
     const newUser = {
       email: req.body.email,
       username: req.body.username,
-      password: req.body.password,
+      hashedPasswords,
       full_name: req.body.full_name,
     };
     //insert user into MySQL
